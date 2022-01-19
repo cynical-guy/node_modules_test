@@ -1,0 +1,12 @@
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install; \
+    # NOTE: Something change in Node v.16 and after 'npm install' it throws out the error "EACCES: permission denied,
+    #       mkdir '/usr/app/node_modules/.cache'". Changing ownership of /node_modules folder solve the problem.
+    chown -R node:node ./node_modules;
+
+EXPOSE 3000
